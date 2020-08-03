@@ -71,8 +71,10 @@ def WritePasswords():
       workers.append('%s-%s' % (distro, version))
 
   passwords = {name: CreatePassword() for name in workers}
-
-  with open('config/secret/passwords.json', 'w') as fh:
+  secret_dir = os.path.join('config', 'secret')
+  if not os.path.exists(secret_dir):
+      os.makedirs(secret_dir)
+  with open(os.path.join(secret_dir, 'passwords.json'), 'w') as fh:
     json.dump(passwords, fh, indent=2, sort_keys=True)
   print('Wrote config/secret/passwords.json')
 
